@@ -151,7 +151,6 @@ for (x in covars_renal) {
     filter(outcome_cleaner == x)
   print(x)
   table(outcomes_renal_function$renal_function, outcomes_renal_function$significant) %>% print()
-  #table(outcomes_renal_function$renal_function, outcomes_renal_function$significant) %>% oddsratio(method = 'fisher', verbose = FALSE) %>% print()
   table(outcomes_renal_function$significant, outcomes_renal_function$renal_function) %>% summary() %>% print()
 }
 
@@ -289,7 +288,7 @@ p1 <- ggplot() +
   coord_polar(theta = "y") +
   guides(alpha = "none") +
   geom_text(data = inner, aes(x = 2, y = category_n, label = paste0(category_n, "\n", round(category_n/1077*100), "%")), position = position_stack(vjust = 0.5), colour = 'white') +
-  geom_text(size = middle$outcome_n*0.09, check_overlap = F, data = middle, aes(angle = circular_angle(mid_y), x = 3.7, y = mid_y, label = outcome_cleaner), colour = 'white')
+  geom_text(size = 2, check_overlap = F, data = middle, aes(angle = circular_angle(mid_y), x = 3.7, y = mid_y, label = outcome_cleaner), colour = 'white')
 
 # Plot 2
 sunburst <- out_merged %>% 
@@ -488,7 +487,7 @@ or_plot <- ggplot(or_dataset, aes(y = index, x = OR)) +
   geom_point(shape = 18, size = 5) +  
   geom_errorbarh(aes(xmin = lci, xmax = uci), height = 0.25) +
   geom_vline(xintercept = 1, color = "red", linetype = "dashed", cex = 1, alpha = 0.5) +
-  scale_y_continuous(name = "", breaks=1:3, labels = dataset$study_label, trans = "reverse") +
+  scale_y_continuous(name = "", breaks=1:3, labels = or_dataset$study_label, trans = "reverse") +
   xlab("Odds Ratio (95% CI)") + 
   ylab(" ") + 
   theme_bw() +
@@ -501,7 +500,7 @@ or_plot <- ggplot(or_dataset, aes(y = index, x = OR)) +
         axis.text.x.bottom = element_text(size = 12, colour = "black"),
         axis.title.x = element_text(size = 12, colour = "black"))
 
-table_base <- ggplot(dataset, aes(y=study_label)) +
+table_base <- ggplot(or_dataset, aes(y=study_label)) +
   ylab(NULL) + xlab("  ") + 
   theme(plot.title = element_text(hjust = 0.5, size=12), 
         axis.text.x = element_text(color="white", hjust = -3, size = 25), ## This is used to help with alignment
